@@ -68,7 +68,7 @@ impl ChatGPT {
 
         let client = reqwest::ClientBuilder::new()
             .default_headers(headers)
-            .timeout(Duration::from_secs(10))
+            .timeout(Duration::from_secs(2 * 60))
             .proxy(proxy)
             .build()?;
         Ok(Self { client, config })
@@ -121,7 +121,9 @@ impl ChatGPT {
     ///
     /// Conversations record message history.
     pub fn new_conversation(&self) -> Conversation {
-        self.new_conversation_directed(format!("You are ChatGPT, an AI model developed by OpenAI. Answer as concisely as possible."))
+        self.new_conversation_directed(format!(
+            "You are ChatGPT, an AI model developed by OpenAI. Answer as concisely as possible."
+        ))
     }
 
     /// Starts a new conversation with a specified starting message.
