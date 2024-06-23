@@ -27,7 +27,7 @@ impl Default for ModelConfiguration {
         Self {
             engine: Default::default(),
             temperature: 0.5,
-            top_p: 1.0,
+            top_p: 0.98,
             presence_penalty: 0.0,
             frequency_penalty: 0.0,
             reply_count: 1,
