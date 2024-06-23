@@ -228,7 +228,7 @@ impl ChatGPT {
         &self,
         message: S,
     ) -> crate::Result<CompletionResponse> {
-        let response: ServerResponse = self
+        let response = self
             .client
             .post(self.config.api_url.clone())
             .json(&CompletionRequest {
@@ -245,9 +245,10 @@ impl ChatGPT {
                 reply_count: self.config.reply_count,
             })
             .send()
-            .await?
-            .json()
             .await?;
+        let response_text = response.text().await?;
+        println!("gpt like service returns: {}", response_text);
+        let response: ServerResponse = serde_json::from_str(&response_text)?;
         match response {
             ServerResponse::Error { error } => Err(crate::err::Error::BackendError {
                 message: error.message,
